@@ -1,0 +1,81 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Condition": {
+                "StringEquals": {
+                    "s3:ExistingObjectTag/Role": "analyst"
+                }
+            },
+            "Action": [
+                "s3:ListObjects",
+                "s3:ListObjectsV2",
+                "s3:GetObject",
+                "s3:GetObjects"
+            ],
+            "Resource": [
+                "arn:aws:s3:::legacy-developer-bucket-432910098841/*"
+            ],
+            "Effect": "Allow",
+            "Sid": "S3AnalystGetObjectsByRole"
+        },
+        {
+            "Condition": {
+                "StringEquals": {
+                    "s3:RequestObjectTag/Role": "analyst"
+                }
+            },
+            "Action": [
+                "s3:PutObject*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::legacy-developer-bucket-432910098841/*"
+            ],
+            "Effect": "Allow",
+            "Sid": "S3AnalystUploadObjectsByRole"
+        },
+        {
+            "Action": [
+                "s3:ListAllMyBuckets",
+                "s3:ListBucket"
+            ],
+            "Resource": "*",
+            "Effect": "Allow",
+            "Sid": "S3BucketReadAccess"
+        },
+        {
+            "Condition": {
+                "StringEquals": {
+                    "s3:ExistingObjectTag/Stage": "ObfuscatedReportReady"
+                }
+            },
+            "Action": [
+                "s3:ListObjects",
+                "s3:ListObjectsV2",
+                "s3:GetObject",
+                "s3:GetObjects"
+            ],
+            "Resource": [
+                "arn:aws:s3:::analytics-report-bucket-432910098841",
+                "arn:aws:s3:::analytics-report-bucket-432910098841/*"
+            ],
+            "Effect": "Allow",
+            "Sid": "AnalyticsReportBucketAccess"
+        },
+        {
+            "Condition": {
+                "StringEquals": {
+                    "s3:ExistingObjectTag/Role": "analyst"
+                }
+            },
+            "Action": [
+                "s3:PutObject*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::legacy-developer-bucket-432910098841/*"
+            ],
+            "Effect": "Allow",
+            "Sid": "AnalyticsReportBucketWriteAccess"
+        }
+    ]
+}
